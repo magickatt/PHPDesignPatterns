@@ -1,6 +1,6 @@
 <?php
 
-namespace Memento;
+namespace Model;
 
 /**
  * Memento design pattern
