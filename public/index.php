@@ -31,6 +31,9 @@ function html_render($content, $title)
     <body>
       <h1>' . $title . '</h1>
       ' . $content . '
+    <footer>Copyright (c) <a href="http://www.andrew-kirkpatrick.com">Andrew 
+      Kirkpatrick</a> ' . date('Y') . ' under the 
+      <a href="http://opensource.org/licenses/MIT">MIT License</a></footer>
     </body>
     </html>';
     
