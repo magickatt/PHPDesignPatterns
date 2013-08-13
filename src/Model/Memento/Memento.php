@@ -1,6 +1,6 @@
 <?php
 
-namespace Model;
+namespace Model\Memento;
 
 /**
  * Memento design pattern
@@ -61,8 +61,20 @@ final class Memento
         // If the property exists...
         if (property_exists($this, $name)) {
 
-            // Clone the current object and add as a revision
+            // Clone the current object
             $clone = clone($this);
+            
+            /*
+             * Clear the revision history of the clone. You can leave the history
+             * intact if you want to revert to the cloned object itself somehow
+             * (in this example the property/value pairs are just being copied 
+             * back) but it means that the revision history can get quite large 
+             * if many revision are made, plus you'll need an external object to
+             * swap the revisions over like a static revision container, etc. 
+             */
+            $clone->clearRevisions();
+            
+            // Add clone as a revision
             $this->addRevision($clone);
             
             // Set the property
@@ -99,9 +111,14 @@ final class Memento
         
         // Iterate over each property of the revision
         foreach (get_object_vars($rollbackRevision) as $property => $value) {
-        
-            // Set the property of the current object to that of the revision
-            $this->$property = $value;
+            
+            // Do not overwrite the revision history (the clone's will be blank)
+            if ($property != 'revisions') {
+                
+                // Set the property of the current object to that of the revision
+                $this->$property = $value;
+                
+            }
             
         }
     }
